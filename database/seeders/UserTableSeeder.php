@@ -21,7 +21,6 @@ class UserTableSeeder extends Seeder
                 'motto' => 'Semua pasti ada waktunya', 
                 'age' => 26, 
                 'email' => 'rezaravelinno@yahoo.com',
-                'remember_token' => Str::random(10),
                 'email_verified_at' => now(),
                 'password' => Hash::make('1sampai9coba'),
 
@@ -31,7 +30,6 @@ class UserTableSeeder extends Seeder
                 'motto' => 'Teruslah berenang', 
                 'age' => 26, 
                 'email' => 'ravelinno9@gmail.com',
-                'remember_token' => Str::random(10),
                 'email_verified_at' => now(),
                 'password' => Hash::make('1sampai9coba'),
             ],
@@ -40,7 +38,6 @@ class UserTableSeeder extends Seeder
                 'motto' => 'Its show time', 
                 'age' => 26, 
                 'email' => 'rrezaravelinno9@gmail.com',
-                'remember_token' => Str::random(10),
                 'email_verified_at' => now(),
                 'password' => Hash::make('1sampai9coba'),
             ],
