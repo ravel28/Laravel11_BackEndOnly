@@ -20,7 +20,7 @@ class UserTableSeeder extends Seeder
                 'name' => 'Reza', 
                 'motto' => 'Semua pasti ada waktunya', 
                 'age' => 26, 
-                'email' => 'rezaravelinno@yahoo.com',
+                'email' => 'ravelinno@yahoo.com',
                 'email_verified_at' => now(),
                 'password' => Hash::make('1sampai9coba'),
 
@@ -37,7 +37,7 @@ class UserTableSeeder extends Seeder
                 'name' => 'Linno', 
                 'motto' => 'Its show time', 
                 'age' => 26, 
-                'email' => 'rrezaravelinno9@gmail.com',
+                'email' => 'ravelinno28@gmail.com',
                 'email_verified_at' => now(),
                 'password' => Hash::make('1sampai9coba'),
             ],

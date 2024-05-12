@@ -61,7 +61,7 @@ class UserController extends Controller
             $result     = $this->userRepositoryInterface->checkUserById($id);
             $meta       = [];
             $status_code= 200;
-
+            
             return ApiResponseClass::sendResponse(UserResource::make($result),$meta,$status_code);
         } catch(Exception $e) {
             ApiResponseClass::throw($e, 'My custom error message',400);
@@ -98,8 +98,8 @@ class UserController extends Controller
             ];
 
             //Note :: result this query is 1 or undefined, i will make search again data by id
-            $updated = $this->userRepositoryInterface->updateUser($id,$data);
-            $result = $this->userRepositoryInterface->checkUserById($id);
+            $result     = $this->userRepositoryInterface->checkUserById($id);
+            $updated    = $this->userRepositoryInterface->updateUser($id,$data);
 
             $meta=[];
             $status_code=200;
@@ -112,6 +112,7 @@ class UserController extends Controller
 
     public function deleteUser(int $id) {
         try {
+            $check  = $this->userRepositoryInterface->checkUserById($id);
             $result = $this->userRepositoryInterface->deleteUser($id);
     
             $meta=[];

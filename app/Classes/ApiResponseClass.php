@@ -1,8 +1,11 @@
 <?php
 
 namespace App\Classes;
+
+use App\Classes\FlattenException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Log;
 class ApiResponseClass
 {
@@ -12,13 +15,15 @@ class ApiResponseClass
     }
 
     public static function throw($e){
-        $output = new \Symfony\Component\Console\Output\ConsoleOutput();
+        $status_code    = method_exists($e,'getStatusCode') ? $e->getStatusCode() : 500;
+        $output         = new \Symfony\Component\Console\Output\ConsoleOutput();
         $output->writeln($e);
+
         throw new HttpResponseException(response()->json([
-            "message"=> 'Oops sorry, something is wrong !',
-            "status_code"=>$e->getCode(),
-            "time_stamp"=>now(),
-        ], 400));
+            "message"       => $e->getMessage(),
+            "status_code"   => $status_code,
+            "time_stamp"    => now(),
+        ], $status_code));
     }
 
     public static function sendResponse($result , $meta, $code){

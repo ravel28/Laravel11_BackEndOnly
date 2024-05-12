@@ -10,62 +10,87 @@ use Illuminate\Support\Facades\DB;
 
 class UserRepository implements UserRepositoryInterface
 {
-    public function index(array $query){
-        $take   = $query['take'];
-        $page   = $query['page'];
-        $user   = User::orderby('name','asc')->paginate($take);
-        $total  = User::all()->count();
-        $meta   = [
-            'current_page'  => $page,
-            'take'          => $take,
-            'total_pages'   => ceil($total/$take),
-            'total_items'   => $total
-        ];
-        $data   = [
-            'items' => $user,
-            'meta'  => $meta,
-        ];
-        return $data;
+    public function index(array $query) {
+        try {
+            $take   = $query['take'];
+            $page   = $query['page'];
+            $user   = User::orderby('name','asc')->paginate($take);
+            $total  = User::all()->count();
+
+            if($total<1) abort(404, "User data is null or not found !");
+
+            $meta   = [
+                'current_page'  => $page,
+                'take'          => $take,
+                'total_pages'   => ceil($total/$take),
+                'total_items'   => $total
+            ];
+            $data   = [
+                'items' => $user,
+                'meta'  => $meta,
+            ];
+            return $data;
+        } catch(Throwable $e) {
+            ApiResponseClass::throw($e);
+        }
     }
 
-    public function checkUser(array $data){
-        $username = $data['user'] ?? '';
-        $inputPassword = $data['password'] ?? '';
-        $checkUser = User::whereRaw('email = ?',[$username])->first();
-        
-        if (Hash::check($inputPassword, $checkUser->password)) {
-            $result = $checkUser;
-        } else {
-            $result = null;
+    public function checkUser(array $data) {
+        try{
+            $username       = $data['user'] ?? '';
+            $inputPassword  = $data['password'] ?? '';
+            $checkUser      = User::whereRaw('email = ?',[$username])->first();
+            
+            if($checkUser){
+                Hash::check($inputPassword, $checkUser->password) ? $result = $checkUser : abort(404,'Password not valid !');
+            } else {
+                abort(404,'Email not found !');
+            }
+            return $result;
+        } catch(Throwable $e) {
+            ApiResponseClass::throw($e);
         }
-        return $result;
      }
  
      public function checkUserById($id){
-        $checkUser = User::whereRaw('id = ?',$id)->first();
-        return $checkUser;
+        try{
+            $checkUser = User::whereRaw('id = ?',$id)->first();
+            if(!$checkUser) abort(404, "User data is null or not found !");
+            return $checkUser;
+        } catch(Throwable $e) {
+            ApiResponseClass::throw($e);
+        }
      }
 
      public function createUser(array $data) {
-        $create_data = User::create([
-            'name' => $data['name'], 
-            'email' => $data['email'],
-            'motto' => $data['motto'],
-            'age' => $data['age'],
-            'email_verified_at' => now(),
-            'password' => $data['password'],
-        ]);
-        return $create_data;
+        try{
+            $create_data = User::create([
+                'name' => $data['name'], 
+                'email' => $data['email'],
+                'motto' => $data['motto'],
+                'age' => $data['age'],
+                'email_verified_at' => now(),
+                'password' => $data['password'],
+            ]);
+            return $create_data;
+        } catch(Throwable $e) {
+            ApiResponseClass::throw($e);
+        }
      }
 
      public function updateUser(int $id, array $data) {
-        $update_data = User::whereRaw('id = ?',$id)->update([
-            'name' => $data['name'], 
-            'motto' => $data['motto'],
-            'age' => $data['age'],
-            'password' => $data['password'],
-        ]);
-        return $update_data;
+        try{
+            $update_data = User::whereRaw('id = ?',$id)->update([
+                'name' => $data['name'], 
+                'motto' => $data['motto'],
+                'age' => $data['age'],
+                'password' => $data['password'],
+            ]);
+            
+            return $update_data;
+        } catch(Throwable $e) {
+            ApiResponseClass::throw($e);
+        }
      }
 
      public function deleteUser(int $id) {
