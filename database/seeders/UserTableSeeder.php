@@ -23,6 +23,7 @@ class UserTableSeeder extends Seeder
                 'email' => 'ravelinno@yahoo.com',
                 'email_verified_at' => now(),
                 'password' => Hash::make('1sampai9coba'),
+                'division_id' => 1,
 
             ],
             [
@@ -32,6 +33,7 @@ class UserTableSeeder extends Seeder
                 'email' => 'ravelinno9@gmail.com',
                 'email_verified_at' => now(),
                 'password' => Hash::make('1sampai9coba'),
+                'division_id' => 2,
             ],
             [
                 'name' => 'Linno', 
@@ -40,6 +42,7 @@ class UserTableSeeder extends Seeder
                 'email' => 'ravelinno28@gmail.com',
                 'email_verified_at' => now(),
                 'password' => Hash::make('1sampai9coba'),
+                'division_id' => 3,
             ],
         ];
 

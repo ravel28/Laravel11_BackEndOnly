@@ -13,16 +13,20 @@ class UserRepository implements UserRepositoryInterface
     public function index(array $query) {
         try {
             $take   = $query['take'];
-            $page   = $query['page'];
-            $user   = User::orderby('name','asc')->paginate($take);
+            $page   = $query['page'] ?? 1;
+            $user   = User::orderby('divisions.id','asc')
+                            ->orderby('users.name','asc')
+                            ->join('divisions','users.division_id','=','divisions.id')
+                            ->paginate($take);
             $total  = User::all()->count();
 
-            if($total<1) abort(404, "User data is null or not found !");
+            if(count($user) < 1) abort(404, "User data is null or not found !");
 
             $meta   = [
                 'current_page'  => $page,
                 'take'          => $take,
                 'total_pages'   => ceil($total/$take),
+                'item_per_page' => count($user),
                 'total_items'   => $total
             ];
             $data   = [

@@ -14,9 +14,9 @@ class DivisionTableSeeder extends Seeder
     public function run(): void
     {
         $division = [
-            ['name' => 'Manager'],
-            ['name' => 'IT'],
-            ['name' => 'Admin'],
+            ['division' => 'Manager'],
+            ['division' => 'IT'],
+            ['division' => 'Admin'],
         ];
 
         foreach ($division as $division) {
