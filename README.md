@@ -13,7 +13,7 @@
 #### Setup Installation ####
 1. Clone repository :
    ```bash
-   $ git clone -b devRavel28 https://github.com/ravel28/Laravel11_BackEndOnly
+   $ git clone https://github.com/ravel28/Laravel11_BackEndOnly
    ```
 #### File Location ####
 2. Go to project folder : 
