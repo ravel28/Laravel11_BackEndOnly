@@ -21,8 +21,11 @@
    $ cd Laravel11_BackEndOnly
    ```
 
+#### Create Database ####
+5. Create database and setup .env
+
 #### Running Database ####
-4. Create prisma typeScript ORM :
+4. Create :
    ```bash
    $ php artisan migrate:fresh --seed
    ```
