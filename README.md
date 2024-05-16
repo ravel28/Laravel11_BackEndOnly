@@ -37,7 +37,7 @@
    ```
 
 #### Host ####
-6. After running the web server, open this address in your client API : http://127.0.0.1:3000
+6. After running the web server, open this address in your client API : http://127.0.0.1:8000
 
 ***
 #### Contributors ####
