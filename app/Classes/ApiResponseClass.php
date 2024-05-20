@@ -29,11 +29,15 @@ class ApiResponseClass
     public static function sendResponse($result , $meta, $code){
         $response=[
             'item'  => $result,
-            'meta'  => $meta ? $meta : null,
             'time'  => now(),
         ];
+        
+        if(count($meta) > 0 ) $data['meta'] = $meta;
+        
         $data['data']   = $code!=204 ? $response : "";
         $code           = $code!=204 ? $code : 204;
+
+
         return response()->json($data, $code);
     }
 

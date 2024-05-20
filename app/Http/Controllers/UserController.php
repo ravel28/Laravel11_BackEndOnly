@@ -71,13 +71,18 @@ class UserController extends Controller
     public function createUser(Request $request) {
         try{
             $data = [
-                'email' => $request->input('email'),
-                'name' => $request->input('name'),
-                'motto' => $request->input('motto'),
-                'age' => $request->input('age'),
-                'password' => Hash::make($request->input('password'))
+                'email'         => $request->input('email'),
+                'name'          => $request->input('name'),
+                'motto'         => $request->input('motto'),
+                'age'           => $request->input('age'),
+                'division_id'   => $request->input('division_id'),
+                'password'      => Hash::make($request->input('password'))
             ];
-            $result = $this->userRepositoryInterface->createUser($data);
+            $create = $this->userRepositoryInterface->createUser($data);
+            $output         = new \Symfony\Component\Console\Output\ConsoleOutput();
+            $output->writeln($create['id']);
+            $result = $this->userRepositoryInterface->checkUserById($create['id']);
+            $output->writeln($result);
 
             $meta=[];
             $status_code=201;

@@ -43,7 +43,9 @@ class UserRepository implements UserRepositoryInterface
         try{
             $username       = $data['user'] ?? '';
             $inputPassword  = $data['password'] ?? '';
-            $checkUser      = User::whereRaw('email = ?',[$username])->first();
+            $checkUser      = User::whereRaw('email = ?',[$username])
+                                    ->first();
+            
             
             if($checkUser){
                 Hash::check($inputPassword, $checkUser->password) ? $result = $checkUser : abort(404,'Password not valid !');
@@ -58,7 +60,9 @@ class UserRepository implements UserRepositoryInterface
  
      public function checkUserById($id){
         try{
-            $checkUser = User::whereRaw('id = ?',$id)->first();
+            $checkUser = User::whereRaw('users.id_user = ?',$id)
+                                ->join('divisions','users.division_id','=','divisions.id')
+                                ->first();
             if(!$checkUser) abort(404, "User data is null or not found !");
             return $checkUser;
         } catch(Throwable $e) {
@@ -69,12 +73,13 @@ class UserRepository implements UserRepositoryInterface
      public function createUser(array $data) {
         try{
             $create_data = User::create([
-                'name' => $data['name'], 
-                'email' => $data['email'],
-                'motto' => $data['motto'],
-                'age' => $data['age'],
+                'name'              => $data['name'], 
+                'email'             => $data['email'],
+                'motto'             => $data['motto'],
+                'age'               => $data['age'],
+                'division_id'       => $data['division_id'],
                 'email_verified_at' => now(),
-                'password' => $data['password'],
+                'password'          => $data['password'],
             ]);
             return $create_data;
         } catch(Throwable $e) {
@@ -84,11 +89,12 @@ class UserRepository implements UserRepositoryInterface
 
      public function updateUser(int $id, array $data) {
         try{
-            $update_data = User::whereRaw('id = ?',$id)->update([
-                'name' => $data['name'], 
-                'motto' => $data['motto'],
-                'age' => $data['age'],
-                'password' => $data['password'],
+            $update_data = User::whereRaw('id_user = ?',$id)->update([
+                'name'          => $data['name'], 
+                'motto'         => $data['motto'],
+                'age'           => $data['age'],
+                'password'      => $data['password'],
+                'division_id'   => $data['division_id'],
             ]);
             
             return $update_data;
@@ -98,7 +104,7 @@ class UserRepository implements UserRepositoryInterface
      }
 
      public function deleteUser(int $id) {
-        $delete_data = User::whereRaw('id = ?',$id)->delete();
+        $delete_data = User::whereRaw('id_user = ?',$id)->delete();
         return $delete_data;
      }
 }

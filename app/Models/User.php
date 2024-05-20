@@ -23,6 +23,7 @@ class User extends Authenticatable
         'age',
         'remember_token',
         'email_verified_at',
+        'division_id',
         'password',
     ];
 
