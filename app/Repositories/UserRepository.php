@@ -60,7 +60,7 @@ class UserRepository implements UserRepositoryInterface
  
      public function checkUserById($id){
         try{
-            $checkUser = User::whereRaw('users.id_user = ?',$id)
+            $checkUser = User::whereRaw('users.id = ?',$id)
                                 ->join('divisions','users.division_id','=','divisions.id')
                                 ->first();
             if(!$checkUser) abort(404, "User data is null or not found !");
@@ -89,7 +89,7 @@ class UserRepository implements UserRepositoryInterface
 
      public function updateUser(int $id, array $data) {
         try{
-            $update_data = User::whereRaw('id_user = ?',$id)->update([
+            $update_data = User::whereRaw('id = ?',$id)->update([
                 'name'          => $data['name'], 
                 'motto'         => $data['motto'],
                 'age'           => $data['age'],
@@ -104,7 +104,11 @@ class UserRepository implements UserRepositoryInterface
      }
 
      public function deleteUser(int $id) {
-        $delete_data = User::whereRaw('id_user = ?',$id)->delete();
-        return $delete_data;
+        try {
+            $delete_data = User::whereRaw('id = ?',$id)->delete();
+            return $delete_data;
+        } catch(Throwable $e){
+            ApiResponseClass::throw($e);
+        }
      }
 }

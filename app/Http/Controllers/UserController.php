@@ -11,8 +11,8 @@ use Illuminate\Support\Facades\Hash;
 use App\Interfaces\UserRepositoryInterface;
 use App\Classes\ApiResponseClass;
 use App\Http\Resources\UserResource;
-
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
 class UserController extends Controller
 {
     private UserRepositoryInterface $userRepositoryInterface;
